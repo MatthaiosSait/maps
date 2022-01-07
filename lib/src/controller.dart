@@ -288,6 +288,16 @@ class MapboxMapController extends ChangeNotifier {
         promoteId: promoteId);
   }
 
+  /// Adds a new source
+  ///
+  /// It can be used to add a vector layer source.
+  ///
+  /// @example
+  /// addSource("mapbox-streets", "vector", "mapbox://mapbox.mapbox-streets-v8");
+  Future<void> addSource(String id, String type, String url) async {
+    await _mapboxGlPlatform.addSource(id, type, url);
+  }
+
   /// Sets new geojson data to and existing source
   ///
   /// This only works as exected if the source has been created with
@@ -302,6 +312,17 @@ class MapboxMapController extends ChangeNotifier {
   Future<void> setGeoJsonSource(
       String sourceId, Map<String, dynamic> geojson) async {
     await _mapboxGlPlatform.setGeoJsonSource(sourceId, geojson);
+  }
+
+  /// Adds Mapbox style layers to the map's style.
+  ///
+  /// A layer defines how data from a specified source will be styled.
+  /// Read more about layer types and available paint and layout properties in the Mapbox Style Specification.
+  Future<void> addLayers(
+      {required List<Map<String, dynamic>> layers,
+      String? belowLayerId}) async {
+    await _mapboxGlPlatform.addLayers(
+        layers: layers, belowLayerId: belowLayerId);
   }
 
   /// Add a symbol layer to the map with the given properties

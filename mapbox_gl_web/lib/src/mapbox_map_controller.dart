@@ -816,6 +816,11 @@ class MapboxMapController extends MapboxGlPlatform
   }
 
   @override
+  Future<void> addSource(String id, String type, String url) async {
+    _map.addSource(id, {"type": type, "url": url});
+  }
+
+  @override
   Future<void> setGeoJsonSource(
       String sourceId, Map<String, dynamic> geojson) async {
     final source = _map.getSource(sourceId) as GeoJsonSource;
@@ -861,6 +866,15 @@ class MapboxMapController extends MapboxGlPlatform
       {String? belowLayerId}) async {
     return _addLayer(sourceId, layerId, properties, "symbol",
         belowLayerId: belowLayerId);
+  }
+
+  @override
+  Future<void> addLayers(
+      {required List<Map<String, dynamic>> layers,
+      String? belowLayerId}) async {
+    for (final layer in layers) {
+      _map.addLayer(layer, belowLayerId);
+    }
   }
 
   Future<void> _addLayer(String sourceId, String layerId,
